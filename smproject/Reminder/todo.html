@@ -4,64 +4,72 @@
 	<meta charset="UTF-8">
 	<title>Reminder ! </title>
 	<link href="https://fonts.googleapis.com/css?family=Acme|Indie+Flower|Ranchers|Roboto+Mono" rel="stylesheet">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<link rel="stylesheet" href="style.css">
+	<script
+  src="https://code.jquery.com/jquery-3.1.1.js"
+  integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="
+  crossorigin="anonymous"></script>
+    <script src="main.js"></script>
 </head>
-<style>
-	body  { 
-    font-family: 'Acme',consolas;
-	background-color: #1B4D8A; 
-	color: whitesmoke;
-	 },
-	input { 
 
-	border-radius: 5px,5px,5px,5px ;
-	
-	 }	
-	#container { 
-	width: 500px ;
-	height: 400px;
-	
-	 }
-.btn { 
-		font-family: 'Acme',consolas;
-		background-color: #1A9CC4;
-		border :none ; 
-		color: whitesmoke;
-	  }
-	  .clear { 
-		font-family: 'Acme',consolas;
-		background-color: #1A9CC4;
-		border :none ; 
-		color: whitesmoke;
-		
-	   }
-	  .input {
-		font-family: 'Acme',consolas;
-		width: 400px;
-		border :none ; 
-
-	  }
-
-</style>
 <body>
-	<div align="center">
-		<form>
-			<div>
-				<label for="do"> <h1>Remind Me !</h1> </label><br><br>
-				<input type="text" name="registrate" id="do" class="input">
-				<input type ="submit" value="Save" id="save" class= "btn">
-				
-			</div>
-		</form> <br><br>
+<header id="main-header" class="bg-success text-white p-4 mb-3">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+            <h1 id="header-title">Item Lister</h1>
+        </div>
+      </div>
+    </div>
+  </header>
 
-			<div id="container">
-			<small> My Idea </small>
-			<ol class="list">
-				
-			</ol>
-			</div>
-			<button type ="submit" class="clear">Clean The Reminder</button>
+  <div class="container">
+   <div id="addEvent">
+    <h2 class="title">Create Event</h2>
+    <form>
+  <div class="form-group">
+    <label for="name">Event</label>
+    <input type="text" class="form-control" id="eventName" placeholder="Enter Event">
+  </div>
+  <div class="form-group">
+    <label for="date">Date</label>
+    <input type="date" class="form-control" id="eventDate" placeholder="enter date">
+  </div>
+  <div class="form-group">
+    <label for="time">Time</label>
+    <input type="time" class="form-control" id="eventTime" placeholder="enter time">
+  </div>
+  
+  <button type="submit" class="btn btn-primary">Add</button>
+</form>
+</div>
+</div>
+
+     <div class="container">
+
+		<h2> Event List</h2>
+		<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Event</th>
+      <th scope="col">Date</th>
+      <th scope="col">Time</th>
+      <th scope="col">Delete</th>
+    </tr>
+  </thead>
+  <tbody id="tableBody">
+    
+  </tbody>
+</table>
+</div>
+</div>
+		
 	</div>
-	<script type="text/javascript" src ="utilities.js"></script>
-	<script type="text/javascript" src  ="todo.js"></script>
-</body>
+	
+
+
+
+
+ </body>
 </html>
