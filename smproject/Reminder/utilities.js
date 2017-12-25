@@ -29,7 +29,7 @@ Utilities.prototype.Create = function(elements) {
 }
 
 
- // get Element
+ // get Element 
 Utilities.prototype.getElement  = function (elements) { 
 
 	if (elements){ 
