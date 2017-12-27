@@ -2,16 +2,36 @@
  "name" : "WeatherApp" , 
 
  "version" : "1.0",
+
  "manifest_version" : 2,
  
- "description" :"..." , 
- 
+ "description" :"" , 
+
+ "permissions" : [
+
+ 	"http://*/*",
+ 	
+ 	"https://*/*" ,
+ 	
+ 	"notifications"
+ ],
+
+
  "browser_action" : { 
  	
  		 "default_icon" :"icone.png" , 
 
- 		 "popup" :"index.html"
+ 		 "default_popup" :"index.html"
  
+     } , 
+     "icons":{ 
+
+     	"64":"icone.png" 
+
+     },
+     "background" :  { 
+
+     	"scripts " : ["main.js" , "App.js "]
      }
  
  }
