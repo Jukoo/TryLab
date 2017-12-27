@@ -6,28 +6,33 @@ class Weather  {
 		
 	}
 
-	getUrl(url , callback) { 
+	getUrl(url) { 
 
-		let xhr = this.xhr ; 
+		 return new Promise((resolve ,reject )=> { 
+		 	let xhr = this.xhr ; 
 
-		xhr.open("GET" ,url ,true) ; 
+			xhr.open("GET" ,url ,true) ; 
 
-		xhr.onreadystatechange = ()=> { 
+			xhr.onreadystatechange = ()=> { 
 
-		 if (xhr.readyState == xhr.DONE && xhr.status < 400)  { 
+			    if (xhr.readyState == xhr.DONE && xhr.status === 200)  { 
 
-		 	callback(xhr.responseText)
+			 	   resolve(xhr.responseText)
 
-		 }else if ( xhr.status > 400 ) { 
-		 	console.log(`connexion Error ${xhr.statusText}`)
-		 }
-		}
-		xhr.onerror = ()=>  { 
+			    }else if ( xhr.status > 400 ) { 
 
-			console.warn("Connot find this url")
-		}
+			 	 reject(`NetWork Error : ${xhr.statusText}`)
+			    }
+			}
+			xhr.onerror = ()=>  { 
 
-		xhr.send(null)
+				console.warn("unable to contact the server")
+			}
+
+			xhr.send(null)
+
+			 }) ; 
+		
 	}
 
 	getPosition (success, error) { 
@@ -37,4 +42,25 @@ class Weather  {
 
 	}
 
+	QueryUrlbyCoords (lat , lon ) { 
+
+	const saticUrl =  `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=defc64c9162e149b4a1d12b2d4650fa6` ; 
+
+	 return saticUrl ; 
+	}
+
+
+	QueryUrlbyTown ( cityOrTown) { 
+
+		const saticUrl = `http://api.openweathermap.org/data/2.5/weather?q=${cityOrTown}&appid=defc64c9162e149b4a1d12b2d4650fa6` ; 
+
+		return saticUrl ; 
+	}
+
+
+	getData (datafromUrl)  { 
+
+		 return console.log(datafromUrl)
+
+	}
 }

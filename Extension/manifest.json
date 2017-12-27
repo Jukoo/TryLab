@@ -13,7 +13,9 @@
  	
  	"https://*/*" ,
  	
- 	"notifications"
+ 	"notifications", 
+
+ 	"unlimitedStorage"
  ],
 
 

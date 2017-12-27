@@ -1,44 +1,71 @@
 window.onload = ()=>  {
 
-	 let _Weather   = new Weather()
+	 let getNotified = new Notification('Weather' , { 
 
-	 _Weather.getPosition(success,error)
+		icon : "icone.png" , 
+		body : "On build"
+	})
+ 
+	let _Weather  = new Weather()
+
+	_Weather.getPosition(success,error)
 	
-      function success (pos) { 
 
-      	 let lat = pos.coords.latitude , lon = pos.coords.longitude ; 
+	// if user accept to use location 
+    function success (pos) { 
 
-       console.log(_Weather.xhr)
+      	   const lat = pos.coords.latitude , lon = pos.coords.longitude ; 
 
-      _Weather.getUrl(`http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=defc64c9162e149b4a1d12b2d4650fa6` , (res)=>  { 
+           console.log(_Weather.xhr)
 
- 	 let result = JSON.parse(res) ; 
+           let StoragePosition = { 
 
-	 console.log(result)
+           	latitude  : localStorage['latitude'] = lat , 
 
-      })
+           	longitude  : localStorage['longitude'] = lon
+           
+           } ; 
+
+           if (StoragePosition.latitude && StoragePosition.longitude ) { 
+
+		      _Weather.getUrl( _Weather.QueryUrlbyCoords(lat , lon)).then(res=> { 
+
+		      	 let DataWeather = JSON.parse(res) ; 
+
+		      	 console.log(DataWeather)
+		      }).catch(err => { 
+
+		      	 console.warn(err)
+		      })
+           }
 
  	}  
  	
 
  	
  	function error () { 
- 		console.log("not found ")
+
+ 		/*let id = navigator.geolocation.watchPosition( success , error) ; 
+
+ 		function success (pos) { 
+
+ 			let crd = pos.coords; 
+ 			  console.log( { 
+
+ 				lat : crd.latitude , 
+ 				lon : crd.longitude
+ 			})
+
+ 		}*/
  	}
+    
+ 	
 
-      let getNotified = new Notification('info' , { 
+	document.querySelector(".link").onclick=()=> {
 
-		icon : "icone.png" , 
-		body : " info de climat"
-	})
-
-      document.querySelector(".link").onclick=()=> {
-
-	chrome.tabs.create({url:"https://openweathermap.org"})
-
-
-
-}
+	     chrome.tabs.create({url:"https://openweathermap.org"})
+	  
+    }
 
  	
 
