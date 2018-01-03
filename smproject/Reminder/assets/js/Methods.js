@@ -1,4 +1,4 @@
-function Utilities  (input, btn) {
+function Utilities(input, btn) {
 	
 	this.elments = { 
 
@@ -11,7 +11,9 @@ function Utilities  (input, btn) {
 
 		getTargetfocus.focus() ; 
 
-		this.elments.save.disabled = setMode ; 
+		this.elments.save.disabled = setMode ;
+
+
 
 	}
 
@@ -58,6 +60,30 @@ if(!Object.prototype.split) {
 
 	}
 }
+
+
+Utilities.prototype.TabRow = function (Eval ,timestemps) { 
+
+	    let taBody = this.Create('tr')
+
+	    let  tdEvent  = this.Create('td') 
+	    tdEvent.textContent = Eval 
+
+	    let moment = tdEvent.cloneNode(false) , closeBtn = tdEvent.cloneNode(false);
+	    moment.textContent = timestemps
+	   
+	    closeBtn.className ="btn btn-danger" ; 
+	    closeBtn.title= "Delete Item ! "
+
+		taBody.appendChild(tdEvent)
+		taBody.appendChild(moment)
+		taBody.appendChild(closeBtn)
+
+		return taBody  ; 	   
+
+
+}
+
 
 
 // on build 
