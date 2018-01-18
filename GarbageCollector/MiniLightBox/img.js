@@ -118,4 +118,8 @@ window.onload = ()=> {
 
 		Imgloader.ShowImg[i]()
 	}
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 7c06af7c8282cedb7fd12653dbb81fac7435685a
