@@ -5,6 +5,21 @@ class Weather  {
 		this.xhr = new XMLHttpRequest() ; 
 		
 	}
+	
+	getElement(element) {
+
+		const getClass = /^\.+/  , getId = /^#+/ ; 
+
+		if (~getClass.test(element)) {
+
+		 return document.querySelector(element)
+
+		 }else if (~getId.test(element)) { 
+
+		 	return document.getElementById(element)
+		 }
+
+	}
 
 	getUrl(url) { 
 
@@ -27,6 +42,7 @@ class Weather  {
 			xhr.onerror = ()=>  { 
 
 				console.warn("unable to contact the server")
+				
 			}
 
 			xhr.send(null)
@@ -44,7 +60,7 @@ class Weather  {
 
 	QueryUrlbyCoords (lat , lon ) { 
 
-	const saticUrl =  `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=defc64c9162e149b4a1d12b2d4650fa6` ; 
+	const saticUrl =  `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=defc64c9162e149b4a1d12b2d4650fa6`; 
 
 	 return saticUrl ; 
 	}
@@ -52,7 +68,7 @@ class Weather  {
 
 	QueryUrlbyTown ( cityOrTown) { 
 
-		const saticUrl = `http://api.openweathermap.org/data/2.5/weather?q=${cityOrTown}&appid=defc64c9162e149b4a1d12b2d4650fa6` ; 
+		const saticUrl = `http://api.openweathermap.org/data/2.5/weather?q=${cityOrTown}&units=metric&appid=defc64c9162e149b4a1d12b2d4650fa6` ; 
 
 		return saticUrl ; 
 	}
@@ -63,4 +79,6 @@ class Weather  {
 		 return console.log(datafromUrl)
 
 	}
+
+
 }

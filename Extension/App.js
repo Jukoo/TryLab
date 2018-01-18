@@ -1,73 +1,81 @@
-window.onload = ()=>  {
+let weather  = new Weather() ; 
 
-	 let getNotified = new Notification('Weather' , { 
+let Elmt =  { 
 
-		icon : "icone.png" , 
-		body : "On build"
-	})
- 
-	let _Weather  = new Weather()
+	_link  : weather.getElement('.link') , 
+	_info  : weather.getElement('.info'),
+	_icon  : weather.getElement('.icon'),
+	_temp  : weather.getElement('.temp'),
+	_Redirect  :()=> { 
 
-	_Weather.getPosition(success,error)
+		Elmt._link.addEventListener('click', ()=> { 
+			 chrome.tabs.create({url:"https://openweathermap.org"})
+		})
+	}
+}
+
+let WeatherExtention = { 
+
+	EnableLocation  : ()=> { 
+
+		weather.getPosition(success,error) ; 
+
+		function success (pos) { 
+			let lat ,long ; 
+			localStorage['lat'] = lat = pos.coords.latitude 
+			localStorage['lon'] = long = pos.coords.longitude
+
+			weather.getUrl(weather.QueryUrlbyCoords(lat,long)).then(res => { 
+
+				let dataWeather = JSON.parse(res)
+				console.log(dataWeather)
+				localStorage['info'] = Elmt._info.textContent = dataWeather.weather[0].description
+				Elmt._temp.textContent  = dataWeather.main.temp                 
+
+			})
+		
+		}
+
+		function error () { 
+		/**
+		* force to use localStorage to store histocal weather
+		*/
+			if (localStorage['lat'] && localStorage['lon']) { 
+
+				weather.getUrl(weather.QueryUrlbyCoords(localStorage['lat'],localStorage['lon'])).then(res => { 
+
+				let dataWeather = JSON.parse(res)
+				console.log(dataWeather)
+				localStorage['info'] = Elmt._info.textContent = dataWeather.weather[0].description
+				Elmt._temp.textContent  = dataWeather.main.temp                 
+
+				})
+			}
+
+		}
+	}
+
+}
+
 	
 
-	// if user accept to use location 
-    function success (pos) { 
+ 
+	
+window.onload = function (){ 
 
-      	   const lat = pos.coords.latitude , lon = pos.coords.longitude ; 
+// Notification 
+let getNotified = new Notification('Weather' , { 
 
-           console.log(_Weather.xhr)
+		icon : "icone.png" , 
+		body :  "on process"
+	})
 
-           let StoragePosition = { 
+// redirect  
 
-           	latitude  : localStorage['latitude'] = lat , 
+Elmt._Redirect();
 
-           	longitude  : localStorage['longitude'] = lon
-           
-           } ; 
+// Weather
 
-           if (StoragePosition.latitude && StoragePosition.longitude ) { 
+WeatherExtention.EnableLocation() ; 
 
-		      _Weather.getUrl( _Weather.QueryUrlbyCoords(lat , lon)).then(res=> { 
-
-		      	 let DataWeather = JSON.parse(res) ; 
-
-		      	 console.log(DataWeather)
-		      }).catch(err => { 
-
-		      	 console.warn(err)
-		      })
-           }
-
- 	}  
- 	
-
- 	
- 	function error () { 
-
- 		/*let id = navigator.geolocation.watchPosition( success , error) ; 
-
- 		function success (pos) { 
-
- 			let crd = pos.coords; 
- 			  console.log( { 
-
- 				lat : crd.latitude , 
- 				lon : crd.longitude
- 			})
-
- 		}*/
- 	}
-    
- 	
-
-	document.querySelector(".link").onclick=()=> {
-
-	     chrome.tabs.create({url:"https://openweathermap.org"})
-	  
-    }
-
- 	
-
- }
-    
+}
