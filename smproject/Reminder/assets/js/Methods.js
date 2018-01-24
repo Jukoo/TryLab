@@ -1,70 +1,70 @@
-function Utilities(input, btn) {
-	
-	this.elments = { 
+class Utilities  { 
 
-		input : document.querySelector(input),
-		save  : document.querySelector(btn) 
+	constructor (input ,btn) { 
+		this.elments = { 
+
+			input : document.querySelector(input),
+			save  : document.querySelector(btn) 
+		}
+
+
+		this.WindowsReady = function(getTargetfocus ,setMode=true)  { 
+
+			getTargetfocus.focus() ; 
+
+			this.elments.save.disabled = setMode ;
+
+		}
+	}
+
+	__RequestAutoload__ (NameSpace){ 
+
+			if (typeof NameSpace == "object") {
+
+				window.addEventListener('load' , ()=> { 
+
+					for (let i in NameSpace)  { 
+
+						for(let x in NameSpace[i]) { 
+
+							NameSpace[i][x]()	
+						}
+					}
+				})
+
+			}
+
+
+	}
+
+	Create (elements) {
+
+		elements  = document.createElement(elements)
+
+		return elements
+	}
+
+	getElement (elements) { 
+
+		if (elements){ 
+
+			let regex = /^#\w+|^.\w+/ 
+
+			 if (regex.test(elements))return document.querySelector(elements) ; 			
+			 
+		}
+
+	}
+
+	split(Data,separator) {
+
+		return Data.split(separator)
 	}
 
 
-	this.WindowsReady = function(getTargetfocus ,setMode)  { 
+	TabRow(Eval ,timestemps) { 
 
-		getTargetfocus.focus() ; 
-
-		this.elments.save.disabled = setMode ;
-
-
-
-	}
-
-
-
-}
-
- // Create Element 
-Utilities.prototype.Create = function(elements) { 
-
-
-	elements  = document.createElement(elements)
-
-	return elements
-}
-
-
- // get Element 
-Utilities.prototype.getElement  = function (elements) { 
-
-	if (elements){ 
-
-		let regex = /^#\w+|^.\w+/ 
-
-		 if (regex.test(elements)) { 
-
-		 	return document.querySelector(elements) ; 			
-		 }else  { 
-
-		   // stattement 
-		 }
-
-	}
-}
-
-
-if(!Object.prototype.split) { 
-
-
-	Utilities.prototype.split= function(Data,separator)  { 
-
-
-		 return Data.split(separator) 
-
-	}
-}
-
-
-Utilities.prototype.TabRow = function (Eval ,timestemps) { 
-
-	    let taBody = this.Create('tr')
+	    const taBody = this.Create('tr')
 
 	    let  tdEvent  = this.Create('td') 
 	    tdEvent.textContent = Eval 
@@ -79,34 +79,24 @@ Utilities.prototype.TabRow = function (Eval ,timestemps) {
 		taBody.appendChild(moment)
 		taBody.appendChild(closeBtn)
 
-		return taBody  ; 	   
+		return taBody ;
 
+	}
+	// on build 
+	Edit(elm ,typeEvent) { 
 
-}
+		if (elm.nodeType == Node.ELEMENT_NODE) { 
 
+ 			elm.addEventListener(typeEvent , function(ev){ 
 
+ 		  	let  edit = confirm("Vous voulez supprimer cette element?")
 
-// on build 
-Utilities.prototype.edit = function (elm , typeEvent){ 
+ 		  	if (edit)elm.parentNode.removeChild(ev.currentTarget) ; 
 
- // Edition   Delete or edit 
- 		if (elm.nodeType == Node.ELEMENT_NODE) { 
-
- 		  elm.addEventListener(typeEvent , function(ev){ 
-
- 		  		let  edit = confirm("Vous voulez supprimer cette element?")
-
- 		  		if (edit) { 
-
- 		  			elm.parentNode.removeChild(ev.currentTarget) ; 
-
- 		  		}else  { 
-
-
- 		  		}
-
+ 		  		
  		   })
  		}
 
- 		
+	}
+
 }

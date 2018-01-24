@@ -3,11 +3,11 @@ let Use = new Utilities("input[type = 'text']" , "input[type='submit']") ;
 
 Use.WindowsReady(Use.elments.input,true)
 
-let shortCuts =  { 
+const shortCuts =  { 
 
-	input : Use.elments.input,
+	_input : Use.elments.input,
 
-	btnSave : Use.elments.save
+	_btnSave : Use.elments.save
 }
 
 //DataStore 
@@ -21,62 +21,51 @@ let DOMtarget  = {
 }
 
 let Globalspace  = { 
-
-
 // # EVENT HANDLER 
 	addEvent :  {  
 
-		EventInput : function () { 
+		EventInput :  function() { 
 
-				shortCuts.input.addEventListener('input',function(ev) { 
-
-					if(shortCuts.input.value.length > 5 ) { 
-
-						shortCuts.btnSave.disabled= false; 
-
-					}else { 
-
-						shortCuts.btnSave.disabled = true
-
-					}			
+			shortCuts._input.addEventListener('input',()=>{ 
+			
+				shortCuts._btnSave.disabled =(shortCuts._input.value.length > 2 )?false:true ; 
+	
 
 
-					})
+		     })
 
 
-
-		},
+	   },
 
 		//Save Event 
-		EventAddItem  : function () { 
+		EventAddItem  : function ()  { 
 
-			        shortCuts.btnSave.addEventListener('click',function(ev) { 
+			        shortCuts._btnSave.addEventListener('click',(ev)=> { 
+			        	ev.preventDefault();
+     				
+	 					if (shortCuts._input.value) { 
 
-     		
- 					if (shortCuts.input.value) { 
+	 						let TableRow = Use.Create('tr') ; 
+	 						let tdEvent= Use.Create("td") , Currtimes = tdEvent.cloneNode(false) , tdDel = tdEvent.cloneNode(false) ; 	
 
- 						let TableRow = Use.Create('tr') ; 
- 						let tdEvent= Use.Create("td") , Currtimes = tdEvent.cloneNode(false) , tdDel = tdEvent.cloneNode(false) ; 	
+	 					   localStorage['Event']+= tdEvent.textContent = shortCuts._input.value +"*"
 
- 					   localStorage['Event']+= tdEvent.textContent = shortCuts.input.value +"*"
+	 					   localStorage['Timestemps']+= Currtimes.textContent = new Date() + '!' ; 
 
- 					   localStorage['Timestemps']+= Currtimes.textContent = new Date() + '!' ; 
+	 					     
+	 					   tdDel.className ="btn btn-danger" ; 
+	 					    
+	 					   TableRow.appendChild(tdEvent) ;
+	 					   TableRow.appendChild(Currtimes) ; 
+	 					   TableRow.appendChild(tdDel)
+	 					   
+	 					   DOMtarget.getTableBody.appendChild(TableRow)
 
- 					     
- 					   tdDel.className ="btn btn-danger" ; 
- 					    
- 					   TableRow.appendChild(tdEvent) ;
- 					   TableRow.appendChild(Currtimes) ; 
- 					   TableRow.appendChild(tdDel)
- 					   
- 					   DOMtarget.getTableBody.appendChild(TableRow)
+	 					   shortCuts._input.value =""
+	 					   shortCuts._input.focus()
 
- 					   shortCuts.input.value =""
- 					   shortCuts.input.focus()
-
- 
- 					}
-
+	 
+	 					}
 
 			})
 
@@ -134,29 +123,13 @@ let Globalspace  = {
 			}*/
 		}	
 
-/*
-TODO : add an event on the li (tag) to edit the  LocalStorage  ! 
-*/
-
-
 
 }
 
 /*******
 
-Experiment Section 
+Autoloader
 
 ******/
 
-
-
-window.addEventListener('load', function (ev)  { 
-
-Globalspace.addEvent.EventInput();
-Globalspace.addEvent.EventAddItem();
-Globalspace.Storage.DataStore();
-//Globalspace.Storage.ClearStorage();
-
-
-})
-
+Use.__RequestAutoload__(Globalspace) ; 
