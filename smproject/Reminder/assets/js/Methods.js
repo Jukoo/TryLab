@@ -24,7 +24,7 @@ class Utilities  {
 				window.addEventListener('load' , ()=> { 
 
 					for (let i in NameSpace)  { 
-
+ 
 						for(let x in NameSpace[i]) { 
 
 							NameSpace[i][x]()	

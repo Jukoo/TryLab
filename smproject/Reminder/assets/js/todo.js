@@ -16,7 +16,11 @@ localStorage['Event'], localStorage['Timestemps'] ;
 
 let DOMtarget  = { 
 
- getTableBody  : Use.getElement("#tableBody") , 
+ getTableBody  : Use.getElement("#tableBody") ,
+ getDelbtn	   : Use.getElement(".del"), 
+ Pop 		   : Use.getElement('.pop'), 
+ Erase         : Use.getElement('.erase') , 
+ dismiss       : Use.getElement('.dismiss')
 
 }
 
@@ -29,14 +33,23 @@ let Globalspace  = {
 			shortCuts._input.addEventListener('input',()=>{ 
 			
 				shortCuts._btnSave.disabled =(shortCuts._input.value.length > 2 )?false:true ; 
-	
-
-
 		     })
-
-
 	   },
 
+	   DisableDel : ()=> { 
+
+	   	DOMtarget.getDelbtn.disabled = localStorage.length > 1 ? false : true
+	   
+	   },
+	   delay : (args, Message) => { 
+			if (args) { 
+				window.setTimeout(()=>{ 
+					args
+		    	} , 500)
+
+			}
+	   },
+	   
 		//Save Event 
 		EventAddItem  : function ()  { 
 
@@ -53,18 +66,16 @@ let Globalspace  = {
 	 					   localStorage['Timestemps']+= Currtimes.textContent = new Date() + '!' ; 
 
 	 					     
-	 					   tdDel.className ="btn btn-danger" ; 
+	 					   tdDel.className ="btn btn-danger btnRound" ; 
 	 					    
 	 					   TableRow.appendChild(tdEvent) ;
 	 					   TableRow.appendChild(Currtimes) ; 
 	 					   TableRow.appendChild(tdDel)
 	 					   
 	 					   DOMtarget.getTableBody.appendChild(TableRow)
-
-	 					   shortCuts._input.value =""
-	 					   shortCuts._input.focus()
-
-	 
+	 					   Globalspace.addEvent.delay(location.reload()) ; 
+	 					   
+				 
 	 					}
 
 			})
@@ -110,17 +121,30 @@ let Globalspace  = {
 			},
 
 			//clear LocalStorage 
-		/*ClearStorage :  function (status) { 
+		ClearStorage :  function (status) { 
 
-				Use.getElement('.clear').addEventListener('click', function(ev) {
+				DOMtarget.getDelbtn.addEventListener('click', function(ev) {
 
-				let confirmation = confirm("Reinitializer votre invantaire ? >_ ") 
+				DOMtarget.Pop.style.display = "block"
+				DOMtarget.Pop.style.opacity = "1"
+				//document.body.style.background.opacity ="0.5"
+
+				DOMtarget.Erase.onclick = ()=> { 
+
+					localStorage.clear() ; 
+					Globalspace.addEvent.delay(location.reload()); 
+				}
+
+				DOMtarget.dismiss.onclick =()=>{ 
+
+					Globalspace.addEvent.delay(location.reload()); 
+				}
 		  
-				confirmation?localStorage.clear(): alert("Operation rejettée ! ")
+				
 
 				})
 
-			}*/
+			}
 		}	
 
 
