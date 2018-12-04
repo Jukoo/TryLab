@@ -1,0 +1,16 @@
+{
+  "name": "extension",
+  "version": "1.0.0",
+  "description": "weather extension ",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1" , 
+    "parcell::serv" : "parcel index.html --open"
+
+  },
+  "author": "jukoo",
+  "license": "MIT ",
+  "dependencies": {
+    "parcel": "^1.10.3"
+  }
+}

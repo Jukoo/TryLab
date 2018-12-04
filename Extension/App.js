@@ -1,39 +1,40 @@
-let weather  = new Weather() ; 
+/**
+ * Weather extension for Chrome Browser  
+ * author : jukoo <funscript@outlook.fr>
+ */ 
+
+const {CoordsLocation , 
+    URL_response, 
+    getElement ,
+    getPosition ,
+    notif_opt } = import {Weather} from "./main"
 
 let Elmt =  { 
-
-	_link  : weather.getElement('.link') , 
-	_info  : weather.getElement('.info'),
-	_icon  : weather.getElement('.icon'),
-	_temp  : weather.getElement('.temp'),
-	_Redirect  :()=> { 
-
+	_link  : getElement('.link') , 
+	_info  : getElement('.info'),
+	_icon  : getElement('.icon'),
+	_temp  : etElement('.temp'),
+	_Redirect()=> { 
 		Elmt._link.addEventListener('click', ()=> { 
 			 chrome.tabs.create({url:"https://openweathermap.org"})
 		})
 	}
 }
 
-let WeatherExtention = { 
+const {EnableLocation} = WeatherExtention = { 
 
-	EnableLocation  : ()=> { 
+    EnableLocation () { 
+		getPosition(success,error) ; 
 
-		weather.getPosition(success,error) ; 
-
-		function success (pos) { 
-			let lat ,long ; 
+        function success (pos) { 
+			let lat ,lon  ; 
 			localStorage['lat'] = lat = pos.coords.latitude 
-			localStorage['lon'] = long = pos.coords.longitude
-
-			weather.getUrl(weather.QueryUrlbyCoords(lat,long)).then(res => { 
-
-				let dataWeather = JSON.parse(res)
-				console.log(dataWeather)
-				localStorage['info'] = Elmt._info.textContent = dataWeather.weather[0].description
-				Elmt._temp.textContent  = dataWeather.main.temp                 
-
+			localStorage['lon'] = lon = pos.coords.longitude
+			 fetch(URL_response(CoordsLocation(lat , lon)).then(res => { 
+				const  dataMetric= JSON.parse(res)
+				localStorage['info'] = Elmt._info.textContent = dataMetric.weather[0].description
+				Elmt._temp.textContent  = dataMetric.main.temp                 
 			})
-		
 		}
 
 		function error () { 
@@ -41,41 +42,21 @@ let WeatherExtention = {
 		* force to use localStorage to store histocal weather
 		*/
 			if (localStorage['lat'] && localStorage['lon']) { 
-
-				weather.getUrl(weather.QueryUrlbyCoords(localStorage['lat'],localStorage['lon'])).then(res => { 
-
-				let dataWeather = JSON.parse(res)
-				console.log(dataWeather)
-				localStorage['info'] = Elmt._info.textContent = dataWeather.weather[0].description
-				Elmt._temp.textContent  = dataWeather.main.temp                 
+				fetch(URL_response(CoordsLocation(localStorage['lat'],localStorage['lon'])).then(res => { 
+				const dataMetric = JSON.parse(res)
+				localStorage['info'] = Elmt._info.textContent = dataMetric.weather[0].description
+				Elmt._temp.textContent  = dataMetric.main.temp                 
 
 				})
 			}
-
 		}
-	}
+	}, 
 
+    Enable_notif () {
+        return new Notification(Weather.appName , notif_opt)
+    }
 }
-
-	
-
- 
-	
-window.onload = function (){ 
-
-// Notification 
-let getNotified = new Notification('Weather' , { 
-
-		icon : "icone.png" , 
-		body :  "on process"
-	})
-
-// redirect  
-
-Elmt._Redirect();
-
-// Weather
-
-WeatherExtention.EnableLocation() ; 
-
-}
+WeatherExtention["Enable_notif"] 
+EnableLocation() 
+Elmt
+._Redirect() 
